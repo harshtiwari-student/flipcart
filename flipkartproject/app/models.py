@@ -1,6 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class CustomManager(models.Manager):
+    def mobile_list(self):
+        return self.filter(category__exact="Mobile")
+
+    def cloths_list(self):
+        return self.filter(category__exact="cloths")
+
+    def shoes_list(self):
+        return self.filter(category__exact="Shoes")
+    
+    def Electronics_list(self):
+        return self.filter(category__exact="Electronics")
+    
+    def pricerange(self,r1,r2):
+        return self.filter(price__range=(r1,r2))
 
 # Create your models here.
 class Product(models.Model):
@@ -17,7 +32,8 @@ class Product(models.Model):
     description = models.TextField()
     price = models.FloatField()
     images = models.ImageField(upload_to="photos")
-
+    objects=models.Manager()
+    productmanager=CustomManager()
 
 class Cart(models.Model):
     userid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
