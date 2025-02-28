@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
@@ -264,10 +264,38 @@ def searchproduct(req):
         |Q(description__icontains=query))
 
         if len(allproducts)==0:
-            messages.error(req,"No resulta found ")
+            messages.error(req,"No result found ")
 
     else:
         allproducts=Product.objects.all()
 
     context={'allproducts':allproducts}
     return render (req,'index.html',context)
+
+def showcarts(req):
+    username=req.user
+    allcarts=Carts.objects.filter(userid=username)
+    print(allcarts)
+    if username.is_authenticated:
+        context={'allcarts':allcarts,"username":username}
+        userid=req.user
+    else:
+        context={'allcarts':allcarts,}
+    return render(req,'showcart.html',context) 
+
+def addtocart(req,productid):
+    if req.user.is_authenticated:
+        userid=req.user
+    else:
+        userid=None
+    userid=req.user
+    allproducts=get_object_or_404(productid=productid)
+    cartitem,created=Cart.objects.get_or_create(userid=userid,productid=allproducts)
+    print(cartitem)
+    print(created)
+    if not created:
+        cartitem.qty+=1
+    else:
+        cartitem.qty=1
+    cartitem.save()
+    return redirect("/showcarts")
