@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
@@ -191,7 +192,7 @@ def mobilelist(req):
 
 def clothslist(req):
     if req.method=="GET":
-        allproducts=Product.productmanager.Cloths_list()
+        allproducts=Product.productmanager.cloths_list()
         print(allproducts)
         context={'allproducts':allproducts}
         return render(req,'index.html',context)
@@ -203,7 +204,7 @@ def clothslist(req):
 
 def shoeslist(req):
     if req.method=="GET":
-        allproducts=Product.productmanager.Shoes_list()
+        allproducts=Product.productmanager.shoes_list()
         print(allproducts)
         context={'allproducts':allproducts}
         return render(req,'index.html',context)

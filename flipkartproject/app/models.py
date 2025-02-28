@@ -11,7 +11,7 @@ class CustomManager(models.Manager):
     def shoes_list(self):
         return self.filter(category__exact="Shoes")
     
-    def Electronics_list(self):
+    def electronics_list(self):
         return self.filter(category__exact="Electronics")
     
     def pricerange(self,r1,r2):
