@@ -39,13 +39,13 @@
 
                 <p>
                 <strong>QTY:</strong>
-                <a href="#"><button class="btn btn-danger">-</button></a>
+                <a href="/updateqty/0/{{x.productid.productid}}"><button class="btn btn-danger">-</button></a>
                 <input type="number" value="{{x.qty}}" style="width: 30px;">
-                <a href="#"><button class="btn btn-success">+</button></a>
+                <a href="/updateqty/1/{{x.productid.productid}}"><button class="btn btn-success">+</button></a>
                 </p>
 
-                <a class="btn btn-warning" href="#">Make Payment</a>
-                <a class="btn btn-primary" href="#">Remove Cart</a>
+                <a class="btn btn-warning" href="/addaddress">Make Payment</a>
+                <a class="btn btn-primary" href="/removecart/{{x.productid.productid}}">Remove Cart</a>
             </div>
         </div>
     
@@ -61,7 +61,7 @@
                 <h5><strong>Total items:</strong></h5>
                 <hr>
                 <h5><strong>Total Amount: Rs</strong></h5>
-                <a href="#" class="btn btn-danger">Make Payment</a>
+                <a href="/addaddress" class="btn btn-danger">Make Payment</a>
             </div>
 
         </div>

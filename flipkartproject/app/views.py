@@ -1,16 +1,15 @@
-
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-from .models import Product,Cart,Orders
+from .models import Product,Cart,Orders,Address,Payment
 
 def index(req):
     allproducts=Product.objects.all()
     context={"allproducts":allproducts}
-    return render(req, "index.html",context)
+    return render(req,"index.html",context)
 
 
 def validate_password(password):
@@ -274,7 +273,7 @@ def searchproduct(req):
 
 def showcarts(req):
     username=req.user
-    allcarts=Carts.objects.filter(userid=username)
+    allcarts=Cart.objects.filter(userid=username.id)
     print(allcarts)
     if username.is_authenticated:
         context={'allcarts':allcarts,"username":username}
@@ -288,8 +287,8 @@ def addtocart(req,productid):
         userid=req.user
     else:
         userid=None
-    userid=req.user
-    allproducts=get_object_or_404(productid=productid)
+    
+    allproducts=get_object_or_404(Product,productid=productid)
     cartitem,created=Cart.objects.get_or_create(userid=userid,productid=allproducts)
     print(cartitem)
     print(created)
@@ -299,3 +298,62 @@ def addtocart(req,productid):
         cartitem.qty=1
     cartitem.save()
     return redirect("/showcarts")
+
+def removecart(req,productid):
+    if req.user.is_authenticated:
+        userid=req.user
+    else:
+        userid=None
+
+    cartitem=Cart.objects.get(productid=productid,userid=userid)
+    cartitem.delete()
+    return redirect("/showcarts")
+
+def updateqty(req,qv,productid):
+    allcarts=Cart.objects.filter(productid=productid)
+    if qv==1:
+        total=allcarts[0].qty+1
+        allcarts.update(qty=total)
+    else:
+        if allcarts[0].qty>1:
+            total=allcarts[0].qty-1
+            allcarts.update(qty=total)
+        else:
+            allcarts=Cart.objects.filter(productid=productid)
+            allcarts.delete()
+    return redirect("/showcarts")
+
+
+
+from .forms import AddressForm
+
+def addaddress(req):
+    if req.user.is_authenticated:
+        if req.method=="POST":
+            form=AddressForm(req.POST)
+
+            if form.is_valid():
+                address=form.save(commit=False)
+                address.userid=req.user
+                address.save()
+                return redirect('/showcarts')
+                
+        else:
+            form=AddressForm()
+
+        context={'form':form}
+        return render(req,'addaddress.html',context)
+    else:
+        return redirect('/signin')
+
+def showaddress(req):
+    if req.user.is_authenticated:
+        address=Address.objects.filter(userid=req.user)
+        if req.method=="POST":
+            return redirect("/showcarts")
+
+        context ={'address':address}
+        return render(req,'showaddress.html',context)
+
+    else:
+        return redirect('/signin')
