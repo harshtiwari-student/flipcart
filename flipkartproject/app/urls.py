@@ -28,4 +28,5 @@ urlpatterns = [
     path('updateqty/<int:qv>/<productid>',views.updateqty,name='updateqty'),
     path('addaddress/',views.addaddress,name='addaddress'),
     path('showaddress/',views.showaddress,name='showaddress'),
+    path('payment/',views.payment,name='payment'),
 ]
