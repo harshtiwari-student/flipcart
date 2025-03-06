@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Flipkart|myProducts{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <h2><a href="/ProductRegister">Register for new product</a></h2>
+        <br>
+        <table class="table table-bordered">
+            <thead>
+                <th>sr.no</th>
+                <th>Productid</th>
+                <th>Productname</th>
+                <th>category</th>
+                <th>description</th>
+                <th>price</th>
+                <th>images</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </thead>
+            <tbody>
+                {% for x in object_list %}
+                <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{x.productid}}</td>
+                <td>{{x.productname}</td>
+                <td>{{x.category}</td>
+                <td>{{x.description}}
+                <td>{{x.price}}</td>
+                <td>
+                    <img src="/media/{{x.images}}" alt="{{x.productname}}" width="100px" height="200px">
+                </td>
+                <td><a href="#">Update</a></td>
+                <td><a href="#">Remove</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
