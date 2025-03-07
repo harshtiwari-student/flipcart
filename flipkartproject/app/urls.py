@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from app.views import ProductRegister,ProductList
+from app.views import ProductRegister,ProductList,Productdelete,ProductUpdate
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -31,5 +31,7 @@ urlpatterns = [
     path('payment/',views.payment,name='payment'),
     path('showorders/',views.showorders,name='showorders'),
     path('ProductRegister/',ProductRegister.as_view(),name="ProductRegister"),
-    path('ProductList/',ProductList.as_view(),name="ProductList")
+    path('ProductList/',ProductList.as_view(),name="ProductList"),
+    path('Productdelete/<int:pk>',Productdelete.as_view(),name="Productdelete"),
+    path('ProductUpdate/<int:pk>',ProductUpdate.as_view(),name="ProductUpdate")
 ]

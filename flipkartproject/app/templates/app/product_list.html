@@ -22,15 +22,15 @@
                 <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{x.productid}}</td>
-                <td>{{x.productname}</td>
-                <td>{{x.category}</td>
+                <td>{{x.productname}}</td>
+                <td>{{x.category}}</td>
                 <td>{{x.description}}
                 <td>{{x.price}}</td>
                 <td>
                     <img src="/media/{{x.images}}" alt="{{x.productname}}" width="100px" height="200px">
                 </td>
-                <td><a href="#">Update</a></td>
-                <td><a href="#">Remove</a></td>
+                <td><a href="/ProductUpdate/{{x.pk}}">Update</a></td>
+                <td><a href="/Productdelete/{{x.pk}}">Remove</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
