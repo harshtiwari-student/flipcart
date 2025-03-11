@@ -360,7 +360,17 @@ def addaddress_single(req,productid=None):
         return redirect('/signin')
 
 def addaddress_all(req):
-    if req.user.is_authenticated:        
+    if req.user.is_authenticated:
+        productid=None       
+        if productid==None:
+            payment_type="all"
+            req.session["payment_type"]=payment_type
+        else:
+            payment_type="single"
+            req.session["payment_type"]=payment_type
+            req.session["productid"]=productid
+
+        print(payment_type)
         if req.method=="POST":
             form=AddressForm(req.POST)
             if form.is_valid():
@@ -392,6 +402,7 @@ import razorpay
 import random
 from django.conf import settings 
 from django.core.mail import send_mail
+
 def payment(req):
     if req.user.is_authenticated:
         try:
